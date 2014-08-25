@@ -1,55 +1,88 @@
 <!DOCTYPE html>
 <html>
-
   <head>
     <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="description" content="Scheduler : Agendamento de tarefas da camada de negócios / Task scheduling business layer">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
 
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
 
-    <title>Scheduler</title>
+    <title>Scheduler by demoiselle</title>
   </head>
 
   <body>
+    <header>
+      <div class="inner">
+        <h1>Scheduler</h1>
+        <h2>Agendamento de tarefas da camada de negócios / Task scheduling business layer</h2>
+        <a href="https://github.com/demoiselle/scheduler" class="button"><small>View project on</small>GitHub</a>
+      </div>
+    </header>
 
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-          <a id="forkme_banner" href="https://github.com/demoiselle/scheduler">View on GitHub</a>
-
-          <h1 id="project_title">Scheduler</h1>
-          <h2 id="project_tagline">Agendamento de tarefas da camada de negócios / Task scheduling business layer</h2>
-
-            <section id="downloads">
-              <a class="zip_download_link" href="https://github.com/demoiselle/scheduler/zipball/master">Download this project as a .zip file</a>
-              <a class="tar_download_link" href="https://github.com/demoiselle/scheduler/tarball/master">Download this project as a tar.gz file</a>
-            </section>
-        </header>
-    </div>
-
-    <!-- MAIN CONTENT -->
-    <div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner">
-        <h1>
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h1>
 <a name="demoiselle-scheduler" class="anchor" href="#demoiselle-scheduler"><span class="octicon octicon-link"></span></a>Demoiselle Scheduler</h1>
 
 <h2>
-<a name="contribuindo" class="anchor" href="#contribuindo"><span class="octicon octicon-link"></span></a>Contribuindo</h2>
+<a name="configura%C3%A7%C3%A3o-do-projeto" class="anchor" href="#configura%C3%A7%C3%A3o-do-projeto"><span class="octicon octicon-link"></span></a>Configuração do Projeto</h2>
 
-<p>Faça um clone do projeto e ajude a crescer esse projeto :)</p>
-      </section>
+<pre><code>O componente funciona em métodos das camadas de Negócio e de Persistência, ou seja, em métodos de classes
+anotadas com @BusinessController e @PersistenceControler.
+</code></pre>
+
+<h3>
+<a name="o-primeiro-passo-%C3%A9-importar-o-componente-no-pomxml" class="anchor" href="#o-primeiro-passo-%C3%A9-importar-o-componente-no-pomxml"><span class="octicon octicon-link"></span></a>O primeiro passo é importar o componente no pom.xml</h3>
+
+<div class="highlight highlight-xml"><pre><span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>br.gov.frameworkdemoiselle.component<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>demoiselle-scheduler-quartz<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>1.0.0-SNAPSHOT<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</pre></div>
+
+<h3>
+<a name="depois-%C3%A9-s%C3%B3-anotar-o-m%C3%A9todo-que-voc%C3%AA-deseja-que-seja-executado-com-schedule" class="anchor" href="#depois-%C3%A9-s%C3%B3-anotar-o-m%C3%A9todo-que-voc%C3%AA-deseja-que-seja-executado-com-schedule"><span class="octicon octicon-link"></span></a>Depois é só anotar o método que você deseja que seja executado com <a href="https://github.com/Schedule" class="user-mention">@Schedule</a>.</h3>
+
+<div class="highlight highlight-java"><pre><span class="nd">@Schedule</span><span class="o">(</span><span class="n">cron</span> <span class="o">=</span> <span class="s">"0 0/1 * * * ?"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">insertAgendado</span><span class="o">()</span> <span class="o">{</span>
+    <span class="o">....</span>
+<span class="o">}</span>
+</pre></div>
+
+<h3>
+<a name="o-par%C3%A2metro-cron-segue-o-padr%C3%A3o-unix-que-pode-ser-consultado-nos-seguintes-links" class="anchor" href="#o-par%C3%A2metro-cron-segue-o-padr%C3%A3o-unix-que-pode-ser-consultado-nos-seguintes-links"><span class="octicon octicon-link"></span></a>O parâmetro cron segue o padrão unix, que pode ser consultado nos seguintes links:</h3>
+
+<pre><code>http://pt.wikipedia.org/wiki/Cron
+
+http://en.wikipedia.org/wiki/Cron
+</code></pre>
+        </section>
+
+        <aside id="sidebar">
+          <a href="https://github.com/demoiselle/scheduler/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/demoiselle/scheduler/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
+
+          <p class="repo-owner"><a href="https://github.com/demoiselle/scheduler"></a> is maintained by <a href="https://github.com/demoiselle">demoiselle</a>.</p>
+
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
     </div>
 
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-        <p class="copyright">Scheduler maintained by <a href="https://github.com/demoiselle">demoiselle</a></p>
-        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
-      </footer>
-    </div>
-
-    
-
+  
   </body>
 </html>
