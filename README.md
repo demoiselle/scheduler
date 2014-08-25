@@ -2,8 +2,10 @@
 
 ## Configuração do Projeto
 
-    O componente funciona em métodos das camadas de Negócio e de Persistência, ou seja, em métodos de classes
-    anotadas com @BusinessController e @PersistenceControler.
+    O componente funciona em métodos das
+    camadas de Negócio e de Persistência, ou seja,
+    em métodos de classes
+    anotadas com *@BusinessController e @PersistenceControler*.
 
 ### O primeiro passo é importar o componente no pom.xml
 
@@ -20,8 +22,8 @@
 
 ```java
 @Schedule(cron = "0 0/1 * * * ?")
-public void insertAgendado() {
-    insert(new Bookmark("Insert Agendado", "" + System.currentTimeMillis()));
+public void qualquerMetodo() {
+    ...
 }
 ```
 
