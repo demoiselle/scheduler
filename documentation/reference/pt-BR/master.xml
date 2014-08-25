@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding="utf-8"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+   "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" []>
+<book lang="pt-BR">
+
+    <xi:include href="bookinfo.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <!-- prefácio -->
+    <preface>
+        <title>Demoiselle scheduler</title>
+        <para>
+            O Demoiselle scheduler .
+        </para>
+
+        <para>
+            O Demoiselle scheduler .
+            <orderedlist numeration="arabic">
+                <listitem>
+                    <para>
+                        <caption>Quartz</caption>
+                        Principal a.
+                    </para>
+                </listitem>
+
+            </orderedlist>
+        </para>
+
+        <para>
+            <mediaobject>
+
+                <caption>
+                    <para>Arquitetura da ferramenta Demoisele scheduler.
+                    </para>
+                </caption>
+            </mediaobject>
+        </para>
+
+        <para>
+            <mediaobject>
+
+                <caption>
+                    <para>Modelo de Funcionamento do Parser.
+                    </para>
+                </caption>
+            </mediaobject>
+        </para>
+     </preface>
+
+
+    <!-- índice -->
+    <toc />
+
+    <!-- capítulos -->
+
+    <xi:include href="quartz.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <xi:include href="configuracao.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <xi:include href="colaboracao.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+    <xi:include href="releasenotes.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <xi:include href="quickstart.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+</book>

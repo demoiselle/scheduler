@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding="utf-8"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+   "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" []>
+<chapter id="scheduler-configuracao">
+
+    <title>Configurações do scheduler</title>
+    <para>
+        O Demoseille scheduler .
+    </para>
+    <section>
+        <title>Configurações do Sistema</title>
+        <para>
+            <itemizedlist>
+                <listitem>
+                    <citetitle>POM.XML</citetitle>
+
+                    <emphasis>pt-BR</emphasis>
+                    .
+                </listitem>
+            </itemizedlist>
+        </para>
+    </section>
+
+    <section>
+        <title>Instação no Projeto</title>
+
+    </section>
+
+</chapter>

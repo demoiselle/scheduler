@@ -1,4 +1,5 @@
-scheduler
-=========
+# Demoiselle Scheduler
 
-Agendamento de tarefas da camada de negócios / Task scheduling business layer
+## Contribuindo
+
+Faça um clone do projeto e ajude a crescer esse projeto :)
