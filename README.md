@@ -94,26 +94,27 @@ disparo ocorrerá isso.
 
 Os parêmetros e os nomes dos meses e dias da semana não são case sensitive. MON é o mesmo que mon.
 
-Exemplos| Descrição
-0 0 * 12 *?  |Executa às 12h (meio-dia) todos os dias
-0 15 10? *  |Executa às 10:15 todos os dias
-0 * 15 10 *?  |Executa às 10:15 todos os dias
-0 * 15 10 *? *  |Executa às 10:15 todos os dias
-0 * 15 10 *? 2005  |Executa às 10:15 todos os dias durante o ano de 2005
-0 * 14 *?  |Executa a cada minuto a partir de 14:00 e terminando às 02:59, todos os dias
-0 0/5 * 14 *?  |Executa a cada cinco minutos a partir de 14:00 e terminando às 02:55, todos os dias
-0 0/5 * 14,18 *?  |Executa a cada cinco minutos a partir de 14:00 e terminando às 02:55, e fogo a cada 5 minutos a partir de 06:00 e terminando às 06:55, todos os dias
-0 0-5 14 *?  |Executa a cada minuto a partir de 14:00 e terminando às 14:05, todos os dias
-0 10,44 14? 3 WED  |Executa at 14:10 e às 02:44 toda quarta-feira no mês de março.
-0 15 10? *  |Executa de segunda a sexta às 10h15 todas as segundas, terças, quartas, quintas e sextas-feiras
-0 15 10 15 *?  |Executa às 10:15 horas do dia 15 de cada mês
-0 15 10 L *?  |Executa às 10:15 no último dia de cada mês
-0 15 10? * 6L  |Executa at 10:15 na última sexta-feira de cada mês
-0 15 10? * 6L  |Executa at 10:15 na última sexta-feira de cada mês
+Exemplos            | Descrição
+--------------------|------------------------------
+0 0 * 12 *?         |Executa às 12h (meio-dia) todos os dias
+0 15 10? *          |Executa às 10:15 todos os dias
+0 * 15 10 *?        |Executa às 10:15 todos os dias
+0 * 15 10 *? *      |Executa às 10:15 todos os dias
+0 * 15 10 *? 2005   |Executa às 10:15 todos os dias durante o ano de 2005
+0 * 14 *?           |Executa a cada minuto a partir de 14:00 e terminando às 02:59, todos os dias
+0 0/5 * 14 *?       |Executa a cada cinco minutos a partir de 14:00 e terminando às 02:55, todos os dias
+0 0/5 * 14,18 *?    |Executa a cada cinco minutos a partir de 14:00 e terminando às 02:55, e fogo a cada 5 minutos a partir de 06:00 e terminando às 06:55, todos os dias
+0 0-5 14 *?         |Executa a cada minuto a partir de 14:00 e terminando às 14:05, todos os dias
+0 10,44 14? 3 WED   |Executa at 14:10 e às 02:44 toda quarta-feira no mês de março.
+0 15 10? *          |Executa de segunda a sexta às 10h15 todas as segundas, terças, quartas, quintas e sextas-feiras
+0 15 10 15 *?       |Executa às 10:15 horas do dia 15 de cada mês
+0 15 10 L *?        |Executa às 10:15 no último dia de cada mês
+0 15 10? * 6L       |Executa at 10:15 na última sexta-feira de cada mês
+0 15 10? * 6L       |Executa at 10:15 na última sexta-feira de cada mês
 0 15 10? * 6L  2002-2005  |Executa at 10:15 em cada última sexta-feira de cada mês durante os anos de 2002, 2003, 2004 e 2005
-0 15 10? * 6 # 3  |Executa às 10:15 na terceira sexta-feira de cada mês
-0 0 12 1/5 *?  |Executa às 12h (meio-dia) a cada 5 dias a cada mês, começando no primeiro dia do mês.
-0 11 11 11 11?  |Executa a cada 11 de novembro às 11:11 horas.
+0 15 10? * 6 # 3    |Executa às 10:15 na terceira sexta-feira de cada mês
+0 0 12 1/5 *?       |Executa às 12h (meio-dia) a cada 5 dias a cada mês, começando no primeiro dia do mês.
+0 11 11 11 11?      |Executa a cada 11 de novembro às 11:11 horas.
 
 Seguem os links para maiores detalhes:
 
