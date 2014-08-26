@@ -33,15 +33,15 @@ public void qualquerMetodo() {
 O parâmetro cron segue o padrão unix, basicamente são 7 campos separados por espaço onde cada campo representa uma
          variável de tempo vejamos a tabela:
 
-Nome |	Obrigatório |	Valores |            Símbolos
---------------------------------------------------------------------------------
-Segundos |	YES |             0-59 |                , - * /
-Minutos |	YES   |           0-59 |                , - * /
-Horas |	YES  |            0-23 |                , - * /
-Dia Mês |     YES |             1-31 |                , - * ? / L W
-Mês |         YES |             1-12 or JAN-DEC |     , - * /
-Dia Semana |	YES |             1-7 or SUN-SAT |      , - * ? / L #
-Ano | 	NO |              empty, 1970-2099 |    , - * /
+Nome|Obrigatório|Valores|Símbolos
+----|-----------|-------|---------------
+Segundos|SIM|0-59|, - * /
+Minutos|SIM|0-59 |, - * /
+Horas|SIM|0-23 |, - * /
+Dia do Mês|SIM|1-31|, - * ? / L W
+Mês|YES|1-12 or JAN-DEC|, - * /
+Dia da Semana|YES |1-7 or SUN-SAT |, - * ? / L #
+Ano|NO |empty, 1970-2099|, - * /
 
 Os campos podem conter símbolos e cada um tem sua representatividade:
 
@@ -86,7 +86,7 @@ ou lista de dias.
 O 'L' e os 'W' também pode ser combinado no campo dia do mês para produzir "LW", que se traduz em
 "último dia útil do mês".
 
-# Usado para especificar a "enésima" XXX dia do mês. Por exemplo, o valor de "6 # 3" no campo dia da
+(#) Usado para especificar a "enésima" XXX dia do mês. Por exemplo, o valor de "6 # 3" no campo dia da
 semana significa "a terceira sexta-feira do mês" (dia 6 = sexta-feira e "# 3" = a 3 em um mês).
 Outros exemplos: "2 # 1" = a primeira segunda-feira do mês e "4 # 5" = o quinto quarta-feira do mês.
 Note que se você especificar "# 5" e não há quinta quarta-feita do mês determinado no mês, então nenhum
