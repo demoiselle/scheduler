@@ -37,12 +37,11 @@ package br.gov.frameworkdemoiselle.scheduler.internal.bootstrap;
 import br.gov.frameworkdemoiselle.DemoiselleException;
 import br.gov.frameworkdemoiselle.internal.implementation.AnnotatedMethodProcessor;
 import br.gov.frameworkdemoiselle.scheduler.lifecycle.Schedule;
-import br.gov.frameworkdemoiselle.util.Beans;
-import br.gov.frameworkdemoiselle.util.NameQualifier;
 import br.gov.frameworkdemoiselle.util.Reflections;
-import br.gov.frameworkdemoiselle.util.ResourceBundle;
 import java.io.Serializable;
 import java.lang.annotation.Annotation;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -58,10 +57,12 @@ import javax.enterprise.inject.spi.ProcessAnnotatedType;
 import static org.quartz.CronScheduleBuilder.cronSchedule;
 import static org.quartz.JobBuilder.newJob;
 import org.quartz.JobDetail;
+import org.quartz.JobKey;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.Trigger;
 import static org.quartz.TriggerBuilder.newTrigger;
+import org.quartz.TriggerKey;
 import org.quartz.impl.StdSchedulerFactory;
 import org.slf4j.Logger;
 
@@ -131,11 +132,18 @@ public abstract class AbstractLifecycleScheduler<A extends Annotation> implement
                     return;
                 }
 
-                JobDetail job = newJob(CdiJob.class).usingJobData(DEMOISELLE_JOB, processor.getAnnotatedMethod().toString()).build();
-                Trigger trigger = newTrigger().withSchedule(cronSchedule(schedule.cron())).build();
-                scheduler.scheduleJob(job, trigger);
+                String nameJob = "JOB " + processor.getAnnotatedMethod().toString();
+                String nameTrigger = "TRIGGER " + processor.getAnnotatedMethod().toString();
 
-            } catch (Exception cause) {
+                if (!scheduler.checkExists(JobKey.jobKey(nameJob)) && !scheduler.checkExists(TriggerKey.triggerKey(nameTrigger))) {
+                    JobDetail job = newJob(CdiJob.class).usingJobData(DEMOISELLE_JOB, processor.getAnnotatedMethod().toString()).withIdentity(JobKey.jobKey(nameJob)).build();
+                    Trigger trigger = newTrigger().withSchedule(cronSchedule(schedule.cron())).withIdentity(TriggerKey.triggerKey(nameTrigger)).build();
+                    scheduler.scheduleJob(job, trigger);
+                }
+
+                getLogger().info(scheduler.getMetaData().getSummary());
+
+            } catch (SchedulerException cause) {
                 failure = cause;
             }
 
@@ -158,7 +166,6 @@ public abstract class AbstractLifecycleScheduler<A extends Annotation> implement
     public void startScheduler(@Observes AfterDeploymentValidation event) {
         try {
             scheduler.start();
-            getLogger().info(scheduler.getMetaData().getSummary());
         } catch (SchedulerException se) {
             throw new RuntimeException(se);
         }

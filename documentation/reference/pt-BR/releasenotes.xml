@@ -18,19 +18,18 @@
         </tip>
     </para>
 
-    <para>
+<!--    <para>
         <citetitle>Versão 1.0.0</citetitle>
 
         <itemizedlist>
             <listitem>
-                <ulink url="https://github.com/demoiselle/behave/pull/101">
+                <ulink url="">
                     <emphasis>[Melhoria]</emphasis>
-                    Tratamento da exceção StaleElementReferenceException por meio de um
-                    proxy
+
                 </ulink>
             </listitem>
         </itemizedlist>
-    </para>
+    </para>-->
 
 </chapter>
 

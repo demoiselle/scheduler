@@ -9,42 +9,9 @@
     <preface>
         <title>Demoiselle scheduler</title>
         <para>
-            O Demoiselle scheduler .
+            O Demoseille scheduler propicia uma configuração fácil para o agendamento da execução de métodos na camada de negócio e persistência.
         </para>
-
-        <para>
-            O Demoiselle scheduler .
-            <orderedlist numeration="arabic">
-                <listitem>
-                    <para>
-                        <caption>Quartz</caption>
-                        Principal a.
-                    </para>
-                </listitem>
-
-            </orderedlist>
-        </para>
-
-        <para>
-            <mediaobject>
-
-                <caption>
-                    <para>Arquitetura da ferramenta Demoisele scheduler.
-                    </para>
-                </caption>
-            </mediaobject>
-        </para>
-
-        <para>
-            <mediaobject>
-
-                <caption>
-                    <para>Modelo de Funcionamento do Parser.
-                    </para>
-                </caption>
-            </mediaobject>
-        </para>
-     </preface>
+    </preface>
 
 
     <!-- índice -->
@@ -52,11 +19,8 @@
 
     <!-- capítulos -->
 
-    <xi:include href="quartz.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
-
     <xi:include href="configuracao.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
 
-    <xi:include href="colaboracao.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
     <xi:include href="releasenotes.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
 
     <xi:include href="quickstart.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />

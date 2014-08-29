@@ -5,24 +5,55 @@
     <title>Roteiro Rápido</title>
 
     <para>
-        Esta seção apresenta um roteiro rápido para criação e
-        configuração de projeto do Demoiselle scheduler
+        Esta seção apresenta um roteiro rápido para a configuração de projetos para o uso do Demoiselle scheduler
     </para>
 
 
     <section>
-        <title>Criação do Projeto</title>
+        <title>Configuração do Projeto</title>
+
         <para>
-            O primeiro passo na
+            O componente funciona em métodos das camadas de Negócio e de Persistência, ou seja, em métodos de classes
+            anotadas com @BusinessController e @PersistenceControler.
+        </para>
+
+        <para>
+            O primeiro passo é importar o componente no pom.xml
+
+            <programlisting role="XML"><![CDATA[
+                        <dependency>
+                            <groupId>br.gov.frameworkdemoiselle.component</groupId>
+                            <artifactId>demoiselle-scheduler-quartz</artifactId>
+                            <version>1.0.0-SNAPSHOT</version>
+                        </dependency>
+                        ]]>
+            </programlisting>
+
+            Depois é só anotar o método que você deseja que seja executado com @Schedule.
+
+            <programlisting role="JAVA"><![CDATA[
+                            @Schedule(cron = "0 0/1 * * * ?")
+                            public void insertAgendado() {
+                                .....
+                            }
+                        ]]>
+            </programlisting>
+
 
         </para>
 
         <para>
-            Escolher o catalogo Demoisele-scheduler
-        </para>
-        <programlisting>
 
-        </programlisting>
+            O parâmetro cron segue o padrão unix, que pode ser consultado nos seguintes links:
+
+            <link>
+                http://pt.wikipedia.org/wiki/Cron
+            </link>
+            <link>
+                http://en.wikipedia.org/wiki/Cron
+            </link>
+        </para>
+
     </section>
 
 
