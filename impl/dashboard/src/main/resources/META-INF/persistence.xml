@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+  <!-- If you are using JBoss AS7 with non JTA transaction then use this persistence-unit -->
+  <!--
+
+  <persistence-unit name="bookmark-ds" transaction-type="RESOURCE_LOCAL">
+    <non-jta-data-source>java:jboss/datasources/ExampleDS</non-jta-data-source>
+    <class>br.gov.frameworkdemoiselle.scheduler.dashboard.domain.QrtzPausedTriggerGrps</class>
+    <class>br.gov.frameworkdemoiselle.scheduler.dashboard.domain.QrtzLocks</class>
+    <class>br.gov.frameworkdemoiselle.scheduler.dashboard.domain.QrtzFiredTriggers</class>
+    <class>br.gov.frameworkdemoiselle.scheduler.dashboard.domain.QrtzBlobTriggers</class>
+    <class>br.gov.frameworkdemoiselle.scheduler.dashboard.domain.QrtzTriggers</class>
+    <class>br.gov.frameworkdemoiselle.scheduler.dashboard.domain.QrtzSchedulerState</class>
+    <class>br.gov.frameworkdemoiselle.scheduler.dashboard.domain.QrtzSimpleTriggers</class>
+    <class>br.gov.frameworkdemoiselle.scheduler.dashboard.domain.QrtzJobDetails</class>
+    <class>br.gov.frameworkdemoiselle.scheduler.dashboard.domain.QrtzCalendars</class>
+    <class>br.gov.frameworkdemoiselle.scheduler.dashboard.domain.QrtzSimpropTriggers</class>
+    <class>br.gov.frameworkdemoiselle.scheduler.dashboard.domain.QrtzCronTriggers</class>
+
+		<class>br.org.frameworkdemoiselle.sample.domain.MyEntity</class>
+<properties>
+      <property name="hibernate.show_sql" value="true"/>
+      <property name="hibernate.format_sql" value="false"/>
+      <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
+      <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
+    </properties>
+  </persistence-unit>
+  -->
+  <!-- If you are using JBoss AS7 with JTA transaction then use this persistence-unit -->
+  <!--
+	<persistence-unit name="bookmark-ds" transaction-type="JTA">
+		<jta-data-source>java:jboss/datasources/ExampleDS</jta-data-source>
+
+		<class>br.gov.frameworkdemoiselle.scheduler.dashboard.domain.Bookmark</class>
+
+		<exclude-unlisted-classes>true</exclude-unlisted-classes>
+		<properties>
+			<property name="hibernate.show_sql" value="true" />
+			<property name="hibernate.format_sql" value="false" />
+			<property name="hibernate.hbm2ddl.auto" value="update" />
+			<property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
+			<property name="hibernate.transaction.jta.platform" value="org.hibernate.service.jta.platform.internal.JBossAppServerJtaPlatform" />
+		</properties>
+	</persistence-unit>
+	-->
+  <!-- If you are using JBoss AS6 with non JTA transaction then use this persistence-unit -->
+  <!--
+	<persistence-unit name="bookmark-ds" transaction-type="RESOURCE_LOCAL">
+		<non-jta-data-source>java:/DefaultDS</non-jta-data-source>
+
+		<class>br.gov.frameworkdemoiselle.scheduler.dashboard.domain.Bookmark</class>
+
+		<properties>
+			<property name="hibernate.show_sql" value="true" />
+			<property name="hibernate.format_sql" value="false" />
+			<property name="hibernate.hbm2ddl.auto" value="create-drop" />
+			<property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect"/>
+		</properties>
+	</persistence-unit>
+	-->
+  <!-- If you are using JBoss AS6 with JTA transaction then use this persistence-unit -->
+  <!--
+	<persistence-unit name="bookmark-ds" transaction-type="JTA">
+		<jta-data-source>java:/DefaultDS</jta-data-source>
+
+		<class>br.gov.frameworkdemoiselle.scheduler.dashboard.domain.Bookmark</class>
+		<exclude-unlisted-classes>true</exclude-unlisted-classes>
+		<properties>
+			<property name="hibernate.show_sql" value="true" />
+			<property name="hibernate.format_sql" value="false" />
+			<property name="hibernate.hbm2ddl.auto" value="update" />
+			<property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect"/>
+			<property name="hibernate.transaction.manager_lookup_class" value="org.hibernate.transaction.JBossTransactionManagerLookup" />
+		</properties>
+	</persistence-unit>
+	-->
+  <!-- If you are using GlassFish 3 with non JTA transaction then use this persistence-unit -->
+  <!--
+	<persistence-unit name="bookmark-ds" transaction-type="RESOURCE_LOCAL">
+		<non-jta-data-source>jdbc/__default</non-jta-data-source>
+
+		<class>br.gov.frameworkdemoiselle.scheduler.dashboard.domain.Bookmark</class>
+
+		<properties>
+			<property name="eclipselink.logging.level" value="FINE" />
+			<property name="eclipselink.ddl-generation" value="create-tables" />
+			<property name="eclipselink.ddl-generation.output-mode" value="database" />
+		</properties>
+	</persistence-unit>
+	-->
+  <!-- If you are using GlassFish 3 with JTA transaction then use this persistence-unit -->
+  <!--
+	<persistence-unit name="bookmark-ds" transaction-type="JTA">
+		<jta-data-source>jdbc/__TimerPool</jta-data-source>
+
+		<class>br.gov.frameworkdemoiselle.scheduler.dashboard.domain.Bookmark</class>
+
+            <properties>
+                    <property name="eclipselink.logging.level" value="FINE" />
+                    <property name="eclipselink.ddl-generation" value="create-tables" />
+                    <property name="eclipselink.ddl-generation.output-mode" value="database" />
+            </properties>
+    </persistence-unit>
+    -->
+    <!-- If you are using Tomcat 6 / Tomcat 7 / JUnit then use this persistence-unit -->
+    <!-- -->
+    <persistence-unit name="bookmark-ds" transaction-type="RESOURCE_LOCAL">
+
+        <class>br.gov.frameworkdemoiselle.scheduler.dashboard.domain.QrtzPausedTriggerGrps</class>
+        <class>br.gov.frameworkdemoiselle.scheduler.dashboard.domain.QrtzLocks</class>
+        <class>br.gov.frameworkdemoiselle.scheduler.dashboard.domain.QrtzFiredTriggers</class>
+        <class>br.gov.frameworkdemoiselle.scheduler.dashboard.domain.QrtzBlobTriggers</class>
+        <class>br.gov.frameworkdemoiselle.scheduler.dashboard.domain.QrtzTriggers</class>
+        <class>br.gov.frameworkdemoiselle.scheduler.dashboard.domain.QrtzSchedulerState</class>
+        <class>br.gov.frameworkdemoiselle.scheduler.dashboard.domain.QrtzSimpleTriggers</class>
+        <class>br.gov.frameworkdemoiselle.scheduler.dashboard.domain.QrtzJobDetails</class>
+        <class>br.gov.frameworkdemoiselle.scheduler.dashboard.domain.QrtzCalendars</class>
+        <class>br.gov.frameworkdemoiselle.scheduler.dashboard.domain.QrtzSimpropTriggers</class>
+        <class>br.gov.frameworkdemoiselle.scheduler.dashboard.domain.QrtzCronTriggers</class>
+
+
+        <properties>
+            <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+            <property name="javax.persistence.jdbc.user" value="root"/>
+            <property name="javax.persistence.jdbc.password" value="serpro"/>
+            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://10.200.24.49:3306/quartz"/>
+            <property name="eclipselink.logging.level" value="FINE"/>
+            <property name="eclipselink.ddl-generation" value="create-tables"/>
+            <property name="eclipselink.ddl-generation.output-mode" value="database"/>
+        </properties>
+    </persistence-unit>
+
+</persistence>

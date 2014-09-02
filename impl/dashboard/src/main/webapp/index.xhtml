@@ -1,0 +1,86 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui" xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets" template="/template/main.xhtml">
+
+    <ui:define name="body">
+        <h:form>
+
+            <!--<p:socket onMessage="handleMessage" autoConnect="true" channel="/quartz" />-->
+
+            <p:tabView orientation="left" >
+                <p:tab title="Schedulers" >
+                    <p:mindmap value="#{quartzMB.root}" style="width: 100%;height:600px;">
+                        <p:ajax event="select" listener="#{quartzMB.onNodeSelect}" />
+                        <p:ajax event="dblselect" listener="#{quartzMB.onNodeDblselect}" update="output" oncomplete="PF('details').show();" />
+                    </p:mindmap>
+                    <p:dialog widgetVar="details" header="Node Details" resizable="false" modal="true" showEffect="fade" hideEffect="fade">
+                        <h:outputText id="output" value="#{quartzMB.selectedNode.data}" />
+                    </p:dialog>
+                </p:tab>
+                <p:tab title="Jobs">
+                    <p:dataScroller value="#{quartzMB.listQrtzJobDetails}" var="job" chunkSize="10" mode="inline" scrollHeight="500">
+                        <f:facet name="header">
+                            Jobs in Cluster
+                        </f:facet>
+                        <h:panelGrid columns="2" style="width:100%;border: 1px solid black;" columnClasses="logo,detail">
+                            <p:outputPanel>
+                                <h:panelGrid columns="2" cellpadding="5">
+
+                                    <h:outputText value="Schedule Name:" />
+                                    <h:outputText value="#{job.qrtzJobDetailsPK.schedName}" style="font-weight: bold"/>
+
+                                    <h:outputText value="Method:" />
+                                    <h:outputText value="#{job.qrtzJobDetailsPK.jobName}" style="font-weight: bold"/>
+
+                                </h:panelGrid>
+                            </p:outputPanel>
+                        </h:panelGrid>
+                    </p:dataScroller>
+                </p:tab>
+                <p:tab title="Triggers">
+                    <p:dataScroller value="#{quartzMB.listQrtzTriggerses}" var="trigger" chunkSize="10" mode="inline" scrollHeight="500">
+                        <f:facet name="header">
+                            Triggers in Cluster
+                        </f:facet>
+                        <h:panelGrid columns="2" style="width:100%;border: 1px solid black;" columnClasses="logo,detail">
+                            <p:outputPanel>
+                                <h:panelGrid columns="2" cellpadding="5">
+
+                                    <h:outputText value="Schedule Name:" />
+                                    <h:outputText value="#{trigger.qrtzTriggersPK.schedName}" style="font-weight: bold"/>
+
+                                    <h:outputText value="Trigger Name:" />
+                                    <h:outputText value="#{trigger.qrtzTriggersPK.triggerName}" style="font-weight: bold"/>
+
+                                    <h:outputText value="Type" />
+                                    <h:outputText value="#{trigger.triggerType}" style="font-weight: bold"/>
+
+                                    <h:outputText value="State" />
+                                    <h:outputText value="#{trigger.triggerState}" style="font-weight: bold"/>
+
+                                    <h:outputText value="Start Time" />
+                                    <h:outputText value="#{trigger.startTime}" style="font-weight: bold"/>
+
+                                    <h:outputText value="End Time" />
+                                    <h:outputText value="#{trigger.endTime}" style="font-weight: bold"/>
+
+                                    <h:outputText value="Prev Execute Time" />
+                                    <h:outputText value="#{trigger.prevFireTime}" style="font-weight: bold"/>
+
+                                    <h:outputText value="Next Execute Time" />
+                                    <h:outputText value="#{trigger.nextFireTime}" style="font-weight: bold"/>
+
+                                    <h:outputText value="Priority Execution" />
+                                    <h:outputText value="#{trigger.priority}" style="font-weight: bold"/>
+
+                                </h:panelGrid>
+                            </p:outputPanel>
+                        </h:panelGrid>
+                    </p:dataScroller>
+                </p:tab>
+            </p:tabView>
+
+        </h:form>
+    </ui:define>
+
+</ui:composition>
