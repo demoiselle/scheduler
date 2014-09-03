@@ -5,7 +5,6 @@
 
     <h:head>
         <title>#{messages['main.app.title']}</title>
-        <link type="text/css" rel="stylesheet" href="css/styles.css" />
     </h:head>
 
     <h:body>
@@ -14,16 +13,5 @@
             <ui:insert name="body" />
         </div>
 
-        <p:growl id="messages" globalOnly="true" />
-
-        <p:ajaxStatus style="width:16px;height:16px;">
-            <f:facet name="start">
-            </f:facet>
-
-            <f:facet name="complete">
-                <h:outputText value="" />
-            </f:facet>
-        </p:ajaxStatus>
-        <link type="text/css" rel="stylesheet" href="css/aristo/skin.css" />
     </h:body>
 </html>

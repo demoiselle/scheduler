@@ -5,9 +5,14 @@
  */
 package br.gov.frameworkdemoiselle.scheduler.dashboard.view;
 
+import br.gov.frameworkdemoiselle.scheduler.dashboard.business.QrtzCronTriggersBC;
+import br.gov.frameworkdemoiselle.scheduler.dashboard.business.QrtzFiredTriggersBC;
 import br.gov.frameworkdemoiselle.scheduler.dashboard.business.QrtzJobDetailsBC;
 import br.gov.frameworkdemoiselle.scheduler.dashboard.business.QrtzSchedulerStateBC;
 import br.gov.frameworkdemoiselle.scheduler.dashboard.business.QrtzTriggersBC;
+import br.gov.frameworkdemoiselle.scheduler.dashboard.domain.QrtzCronTriggers;
+import br.gov.frameworkdemoiselle.scheduler.dashboard.domain.QrtzFiredTriggers;
+import br.gov.frameworkdemoiselle.scheduler.dashboard.domain.QrtzFiredTriggersPK;
 import br.gov.frameworkdemoiselle.scheduler.dashboard.domain.QrtzJobDetails;
 import br.gov.frameworkdemoiselle.scheduler.dashboard.domain.QrtzSchedulerState;
 import br.gov.frameworkdemoiselle.scheduler.dashboard.domain.QrtzTriggers;
@@ -17,7 +22,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.mindmap.DefaultMindmapNode;
 import org.primefaces.model.mindmap.MindmapNode;
@@ -31,7 +35,7 @@ public class QuartzMB implements Serializable {
 
     private MindmapNode selectedNode;
 
-    private final static String CHANNEL = "/quartz";
+    private Long timeCheckin = 20l;
 
     private List<QrtzSchedulerState> listSchedulerState = new ArrayList<QrtzSchedulerState>();
     private List<QrtzJobDetails> listQrtzJobDetails = new ArrayList<QrtzJobDetails>();
@@ -43,45 +47,84 @@ public class QuartzMB implements Serializable {
     private QrtzTriggersBC qrtzTriggersBC = Beans.getReference(QrtzTriggersBC.class);
     //@Inject
     private QrtzJobDetailsBC qrtzJobDetailsBC = Beans.getReference(QrtzJobDetailsBC.class);
+    //@Inject
+    private QrtzCronTriggersBC qrtzCronTriggersBC = Beans.getReference(QrtzCronTriggersBC.class);
+    //@Inject
+    private QrtzFiredTriggersBC qrtzFiredTriggersBC = Beans.getReference(QrtzFiredTriggersBC.class);
 
     public QuartzMB() {
         updateScheduler();
+        updateJobs();
+        updateTriggers();
+    }
+
+    private void updateJobs() {
+        listQrtzJobDetails = qrtzJobDetailsBC.findAll();
+    }
+
+    private void updateTriggers() {
+        listQrtzTriggerses = qrtzTriggersBC.findAll();
     }
 
     private void updateScheduler() {
 
-        listQrtzTriggerses = qrtzTriggersBC.findAll();
-        listQrtzJobDetails = qrtzJobDetailsBC.findAll();
         listSchedulerState = qrtzSchedulerStateBC.findAll();
 
         String name = listSchedulerState.get(0).getQrtzSchedulerStatePK().getSchedName();
+        timeCheckin = (listSchedulerState.get(0).getCheckinInterval() / 1000);
 
         root = new DefaultMindmapNode(name, name, "FFCC00", false);
+        MindmapNode ips;
 
         for (QrtzSchedulerState object : listSchedulerState) {
-            MindmapNode ips = new DefaultMindmapNode(object.getQrtzSchedulerStatePK().getInstanceName(), object.getQrtzSchedulerStatePK().getInstanceName() + " # Last Checkin -" + new Date(object.getLastCheckinTime()), "6e9ebf", true);
+
+            List<QrtzFiredTriggers> lista = findQrtzFiredTriggers(object.getQrtzSchedulerStatePK().getInstanceName());
+
+            if (lista != null && !lista.isEmpty()) {
+
+                ips = new DefaultMindmapNode(object.getQrtzSchedulerStatePK().getInstanceName(), object.getQrtzSchedulerStatePK().getInstanceName() + " # Last Checkin -" + new Date(object.getLastCheckinTime()), "6e9000", true);
+
+                for (QrtzFiredTriggers qrtzFiredTriggers : lista) {
+                    ips.addNode(new DefaultMindmapNode("" + qrtzFiredTriggers.getFiredTime(), "" + qrtzFiredTriggers.getSchedTime(), "db0c0c", true));
+                }
+
+            } else {
+                ips = new DefaultMindmapNode(object.getQrtzSchedulerStatePK().getInstanceName(), object.getQrtzSchedulerStatePK().getInstanceName() + " # Last Checkin -" + new Date(object.getLastCheckinTime()), "4262c5", true);
+            }
+
             root.addNode(ips);
         }
     }
 
+    private QrtzCronTriggers findQrtzCronTriggers(String instanceName) {
+        return null;
+    }
+
+    private List<QrtzFiredTriggers> findQrtzFiredTriggers(String instanceName) {
+        return qrtzFiredTriggersBC.findQrtzFiredTriggers(instanceName);
+    }
+
+    public Long getTimeCheckin() {
+        return timeCheckin;
+    }
+
     public List<QrtzSchedulerState> getListSchedulerState() {
+        updateScheduler();
         return listSchedulerState;
     }
 
     public List<QrtzJobDetails> getListQrtzJobDetails() {
+        updateJobs();
         return listQrtzJobDetails;
     }
 
     public List<QrtzTriggers> getListQrtzTriggerses() {
+        updateTriggers();
         return listQrtzTriggerses;
     }
 
-    public void send() {
-        //EventBus eventBus = EventBusFactory.getDefault().eventBus();
-        // eventBus.publish(CHANNEL, listQrtzSchedulerState());
-    }
-
     public MindmapNode getRoot() {
+        updateScheduler();
         return root;
     }
 
@@ -97,24 +140,15 @@ public class QuartzMB implements Serializable {
         MindmapNode node = (MindmapNode) event.getObject();
 
         //populate if not already loaded
-        if (node.getChildren().isEmpty()) {
-            Object label = node.getLabel();
-            // aqui busca o fired
-            if (label.equals("NS(s)")) {
-                for (int i = 0; i < 25; i++) {
-                    node.addNode(new DefaultMindmapNode("ns" + i + ".google.com", "Namespace " + i + " of Google", "82c542", false));
-                }
-            } else if (label.equals("IPs")) {
-                for (int i = 0; i < 18; i++) {
-                    node.addNode(new DefaultMindmapNode("1.1.1." + i, "IP Number: 1.1.1." + i, "fce24f", false));
-                }
-            } else if (label.equals("Malware")) {
-                for (int i = 0; i < 18; i++) {
-                    String random = UUID.randomUUID().toString();
-                    node.addNode(new DefaultMindmapNode("Malware-" + random, "Malicious Software: " + random, "3399ff", false));
-                }
-            }
-        }
+//        if (node.getChildren().isEmpty()) {
+//            Object label = node.getLabel();
+//            List<QrtzFiredTriggers> lista = findQrtzFiredTriggers(label.toString());
+//            if (lista != null && !lista.isEmpty()) {
+//                for (QrtzFiredTriggers qrtzFiredTriggers : lista) {
+//                    node.addNode(new DefaultMindmapNode("" + qrtzFiredTriggers.getFiredTime(), "" + qrtzFiredTriggers.getSchedTime(), "db0c0c", false));
+//                }
+//            }
+//        }
     }
 
     public void onNodeDblselect(SelectEvent event) {

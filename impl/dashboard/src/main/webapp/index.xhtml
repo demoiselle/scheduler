@@ -4,12 +4,10 @@
 
     <ui:define name="body">
         <h:form>
-
-            <!--<p:socket onMessage="handleMessage" autoConnect="true" channel="/quartz" />-->
-
             <p:tabView orientation="left" >
-                <p:tab title="Schedulers" >
-                    <p:mindmap value="#{quartzMB.root}" style="width: 100%;height:600px;">
+                <p:tab  title="Schedulers">
+                    <p:poll id="poll1" interval="#{quartzMB.timeCheckin}" update="mindmap1" autoStart="true" />
+                    <p:mindmap  id="mindmap1" value="#{quartzMB.root}" style="width: 100%;height:600px;">
                         <p:ajax event="select" listener="#{quartzMB.onNodeSelect}" />
                         <p:ajax event="dblselect" listener="#{quartzMB.onNodeDblselect}" update="output" oncomplete="PF('details').show();" />
                     </p:mindmap>
@@ -18,7 +16,8 @@
                     </p:dialog>
                 </p:tab>
                 <p:tab title="Jobs">
-                    <p:dataScroller value="#{quartzMB.listQrtzJobDetails}" var="job" chunkSize="10" mode="inline" scrollHeight="500">
+                    <p:poll id="poll2" interval="#{quartzMB.timeCheckin}" update="JobsList" autoStart="true" />
+                    <p:dataScroller id="JobsList" value="#{quartzMB.listQrtzJobDetails}" var="job" chunkSize="10" mode="inline" scrollHeight="500">
                         <f:facet name="header">
                             Jobs in Cluster
                         </f:facet>
@@ -38,7 +37,8 @@
                     </p:dataScroller>
                 </p:tab>
                 <p:tab title="Triggers">
-                    <p:dataScroller value="#{quartzMB.listQrtzTriggerses}" var="trigger" chunkSize="10" mode="inline" scrollHeight="500">
+                    <p:poll id="poll3" interval="#{quartzMB.timeCheckin}" update="triggerList" autoStart="true" />
+                    <p:dataScroller id="triggerList" value="#{quartzMB.listQrtzTriggerses}" var="trigger" chunkSize="10" mode="inline" scrollHeight="500">
                         <f:facet name="header">
                             Triggers in Cluster
                         </f:facet>
@@ -79,7 +79,6 @@
                     </p:dataScroller>
                 </p:tab>
             </p:tabView>
-
         </h:form>
     </ui:define>
 
