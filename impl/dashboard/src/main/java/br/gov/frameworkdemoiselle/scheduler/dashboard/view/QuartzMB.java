@@ -12,13 +12,14 @@ import br.gov.frameworkdemoiselle.scheduler.dashboard.business.QrtzSchedulerStat
 import br.gov.frameworkdemoiselle.scheduler.dashboard.business.QrtzTriggersBC;
 import br.gov.frameworkdemoiselle.scheduler.dashboard.domain.QrtzCronTriggers;
 import br.gov.frameworkdemoiselle.scheduler.dashboard.domain.QrtzFiredTriggers;
-import br.gov.frameworkdemoiselle.scheduler.dashboard.domain.QrtzFiredTriggersPK;
 import br.gov.frameworkdemoiselle.scheduler.dashboard.domain.QrtzJobDetails;
 import br.gov.frameworkdemoiselle.scheduler.dashboard.domain.QrtzSchedulerState;
 import br.gov.frameworkdemoiselle.scheduler.dashboard.domain.QrtzTriggers;
 import br.gov.frameworkdemoiselle.stereotype.ViewController;
 import br.gov.frameworkdemoiselle.util.Beans;
 import java.io.Serializable;
+import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -37,10 +38,6 @@ public class QuartzMB implements Serializable {
 
     private Long timeCheckin = 20l;
 
-    private List<QrtzSchedulerState> listSchedulerState = new ArrayList<QrtzSchedulerState>();
-    private List<QrtzJobDetails> listQrtzJobDetails = new ArrayList<QrtzJobDetails>();
-    private List<QrtzTriggers> listQrtzTriggerses = new ArrayList<QrtzTriggers>();
-
     //@Inject
     private QrtzSchedulerStateBC qrtzSchedulerStateBC = Beans.getReference(QrtzSchedulerStateBC.class);
     //@Inject
@@ -48,32 +45,20 @@ public class QuartzMB implements Serializable {
     //@Inject
     private QrtzJobDetailsBC qrtzJobDetailsBC = Beans.getReference(QrtzJobDetailsBC.class);
     //@Inject
-    private QrtzCronTriggersBC qrtzCronTriggersBC = Beans.getReference(QrtzCronTriggersBC.class);
-    //@Inject
     private QrtzFiredTriggersBC qrtzFiredTriggersBC = Beans.getReference(QrtzFiredTriggersBC.class);
 
     public QuartzMB() {
-        updateScheduler();
-        updateJobs();
-        updateTriggers();
+
     }
 
-    private void updateJobs() {
-        listQrtzJobDetails = qrtzJobDetailsBC.findAll();
-    }
+    public MindmapNode getRoot() {
 
-    private void updateTriggers() {
-        listQrtzTriggerses = qrtzTriggersBC.findAll();
-    }
-
-    private void updateScheduler() {
-
-        listSchedulerState = qrtzSchedulerStateBC.findAll();
+        List<QrtzSchedulerState> listSchedulerState = qrtzSchedulerStateBC.findAll();
 
         String name = listSchedulerState.get(0).getQrtzSchedulerStatePK().getSchedName();
         timeCheckin = (listSchedulerState.get(0).getCheckinInterval() / 1000);
 
-        root = new DefaultMindmapNode(name, name, "FFCC00", false);
+        root = new DefaultMindmapNode(name, name, "E0FFFF", false);
         MindmapNode ips;
 
         for (QrtzSchedulerState object : listSchedulerState) {
@@ -82,22 +67,19 @@ public class QuartzMB implements Serializable {
 
             if (lista != null && !lista.isEmpty()) {
 
-                ips = new DefaultMindmapNode(object.getQrtzSchedulerStatePK().getInstanceName(), object.getQrtzSchedulerStatePK().getInstanceName() + " # Last Checkin -" + new Date(object.getLastCheckinTime()), "6e9000", true);
+                ips = new DefaultMindmapNode(object.getQrtzSchedulerStatePK().getInstanceName(), object.getQrtzSchedulerStatePK().getInstanceName() + " # Last Checkin -" + convertTime(object.getLastCheckinTime()), "00FF7F", true);
 
                 for (QrtzFiredTriggers qrtzFiredTriggers : lista) {
-                    ips.addNode(new DefaultMindmapNode("" + qrtzFiredTriggers.getFiredTime(), "" + qrtzFiredTriggers.getSchedTime(), "db0c0c", true));
+                    ips.addNode(new DefaultMindmapNode(qrtzFiredTriggers.getTriggerName(), " # Fire time " + convertTime(qrtzFiredTriggers.getFiredTime()) + " # Sched time " + convertTime(qrtzFiredTriggers.getSchedTime()), "FF0000", true));
                 }
 
             } else {
-                ips = new DefaultMindmapNode(object.getQrtzSchedulerStatePK().getInstanceName(), object.getQrtzSchedulerStatePK().getInstanceName() + " # Last Checkin -" + new Date(object.getLastCheckinTime()), "4262c5", true);
+                ips = new DefaultMindmapNode(object.getQrtzSchedulerStatePK().getInstanceName(), object.getQrtzSchedulerStatePK().getInstanceName() + " # Last Checkin -" + convertTime(object.getLastCheckinTime()), "D3D3D3", true);
             }
 
             root.addNode(ips);
         }
-    }
-
-    private QrtzCronTriggers findQrtzCronTriggers(String instanceName) {
-        return null;
+        return root;
     }
 
     private List<QrtzFiredTriggers> findQrtzFiredTriggers(String instanceName) {
@@ -108,24 +90,12 @@ public class QuartzMB implements Serializable {
         return timeCheckin;
     }
 
-    public List<QrtzSchedulerState> getListSchedulerState() {
-        updateScheduler();
-        return listSchedulerState;
-    }
-
     public List<QrtzJobDetails> getListQrtzJobDetails() {
-        updateJobs();
-        return listQrtzJobDetails;
+        return qrtzJobDetailsBC.findAll();
     }
 
     public List<QrtzTriggers> getListQrtzTriggerses() {
-        updateTriggers();
-        return listQrtzTriggerses;
-    }
-
-    public MindmapNode getRoot() {
-        updateScheduler();
-        return root;
+        return qrtzTriggersBC.findAll();
     }
 
     public MindmapNode getSelectedNode() {
@@ -136,22 +106,20 @@ public class QuartzMB implements Serializable {
         this.selectedNode = selectedNode;
     }
 
-    public void onNodeSelect(SelectEvent event) {
-        MindmapNode node = (MindmapNode) event.getObject();
-
-        //populate if not already loaded
-//        if (node.getChildren().isEmpty()) {
-//            Object label = node.getLabel();
-//            List<QrtzFiredTriggers> lista = findQrtzFiredTriggers(label.toString());
-//            if (lista != null && !lista.isEmpty()) {
-//                for (QrtzFiredTriggers qrtzFiredTriggers : lista) {
-//                    node.addNode(new DefaultMindmapNode("" + qrtzFiredTriggers.getFiredTime(), "" + qrtzFiredTriggers.getSchedTime(), "db0c0c", false));
-//                }
-//            }
-//        }
-    }
-
     public void onNodeDblselect(SelectEvent event) {
         this.selectedNode = (MindmapNode) event.getObject();
+    }
+
+    public void onNodeSelect(SelectEvent event) {
+        MindmapNode node = (MindmapNode) event.getObject();
+    }
+
+    public String convertTime(long time) {
+        if (time > 0) {
+            Date date = new Date(time);
+            Format format = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+            return format.format(date);
+        }
+        return "-";
     }
 }

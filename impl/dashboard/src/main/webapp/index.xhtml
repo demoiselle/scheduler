@@ -4,7 +4,7 @@
 
     <ui:define name="body">
         <h:form>
-            <p:tabView orientation="left" >
+            <p:tabView orientation="left" dynamic="true">
                 <p:tab  title="Schedulers">
                     <p:poll id="poll1" interval="#{quartzMB.timeCheckin}" update="mindmap1" autoStart="true" />
                     <p:mindmap  id="mindmap1" value="#{quartzMB.root}" style="width: 100%;height:600px;">
@@ -16,7 +16,6 @@
                     </p:dialog>
                 </p:tab>
                 <p:tab title="Jobs">
-                    <p:poll id="poll2" interval="#{quartzMB.timeCheckin}" update="JobsList" autoStart="true" />
                     <p:dataScroller id="JobsList" value="#{quartzMB.listQrtzJobDetails}" var="job" chunkSize="10" mode="inline" scrollHeight="500">
                         <f:facet name="header">
                             Jobs in Cluster
@@ -37,7 +36,6 @@
                     </p:dataScroller>
                 </p:tab>
                 <p:tab title="Triggers">
-                    <p:poll id="poll3" interval="#{quartzMB.timeCheckin}" update="triggerList" autoStart="true" />
                     <p:dataScroller id="triggerList" value="#{quartzMB.listQrtzTriggerses}" var="trigger" chunkSize="10" mode="inline" scrollHeight="500">
                         <f:facet name="header">
                             Triggers in Cluster
@@ -52,6 +50,9 @@
                                     <h:outputText value="Trigger Name:" />
                                     <h:outputText value="#{trigger.qrtzTriggersPK.triggerName}" style="font-weight: bold"/>
 
+                                    <h:outputText value="Cron Expression" />
+                                    <h:outputText value="#{trigger.qrtzCronTriggers.cronExpression}" style="font-weight: bold"/>
+
                                     <h:outputText value="Type" />
                                     <h:outputText value="#{trigger.triggerType}" style="font-weight: bold"/>
 
@@ -59,19 +60,19 @@
                                     <h:outputText value="#{trigger.triggerState}" style="font-weight: bold"/>
 
                                     <h:outputText value="Start Time" />
-                                    <h:outputText value="#{trigger.startTime}" style="font-weight: bold"/>
-
-                                    <h:outputText value="End Time" />
-                                    <h:outputText value="#{trigger.endTime}" style="font-weight: bold"/>
+                                    <h:outputText value="#{quartzMB.convertTime(trigger.startTime)}" style="font-weight: bold"/>
 
                                     <h:outputText value="Prev Execute Time" />
-                                    <h:outputText value="#{trigger.prevFireTime}" style="font-weight: bold"/>
+                                    <h:outputText value="#{quartzMB.convertTime(trigger.prevFireTime)}" style="font-weight: bold"/>
 
                                     <h:outputText value="Next Execute Time" />
-                                    <h:outputText value="#{trigger.nextFireTime}" style="font-weight: bold"/>
+                                    <h:outputText value="#{quartzMB.convertTime(trigger.nextFireTime)}" style="font-weight: bold"/>
 
                                     <h:outputText value="Priority Execution" />
                                     <h:outputText value="#{trigger.priority}" style="font-weight: bold"/>
+
+                                    <h:outputText value="Time Zone" />
+                                    <h:outputText value="#{trigger.qrtzCronTriggers.timeZoneId}" style="font-weight: bold"/>
 
                                 </h:panelGrid>
                             </p:outputPanel>
