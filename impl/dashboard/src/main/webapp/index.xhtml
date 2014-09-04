@@ -4,7 +4,7 @@
 
     <ui:define name="body">
         <h:form>
-            <p:tabView orientation="left" dynamic="true">
+            <p:tabView orientation="left" dynamic="true" cache="false">
                 <p:tab  title="Schedulers">
                     <p:poll id="poll1" interval="#{quartzMB.timeCheckin}" update="mindmap1" autoStart="true" />
                     <p:mindmap  id="mindmap1" value="#{quartzMB.root}" style="width: 100%;height:600px;">
