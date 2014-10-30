@@ -2,11 +2,11 @@
 
 ## Configuração do Projeto
 
-    O componente funciona em métodos das camadas de Negócio e de Persistência, ou seja, em métodos de classes anotadas com *@BusinessController e @PersistenceControler*.
+O componente funciona em métodos das camadas de Negócio e de Persistência, ou seja, em métodos de classes anotadas com *@BusinessController e @PersistenceControler*.
 
 ## Compatibilidades
     
-    O componente é compatível com versões do Demoiselle Framework superiores a 2.4.0
+O componente é compatível com versões do Demoiselle Framework superiores a 2.4.0
 
 ### O primeiro passo é importar o componente no pom.xml
 
