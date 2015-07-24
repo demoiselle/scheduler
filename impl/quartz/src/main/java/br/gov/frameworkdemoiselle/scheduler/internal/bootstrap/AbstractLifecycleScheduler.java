@@ -40,12 +40,11 @@ import br.gov.frameworkdemoiselle.scheduler.lifecycle.Schedule;
 import br.gov.frameworkdemoiselle.util.Reflections;
 import java.io.Serializable;
 import java.lang.annotation.Annotation;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Logger;
 import javax.enterprise.event.Observes;
 import javax.enterprise.inject.spi.AfterDeploymentValidation;
 import javax.enterprise.inject.spi.AnnotatedMethod;
@@ -64,7 +63,6 @@ import org.quartz.Trigger;
 import static org.quartz.TriggerBuilder.newTrigger;
 import org.quartz.TriggerKey;
 import org.quartz.impl.StdSchedulerFactory;
-import org.slf4j.Logger;
 
 /**
  *
@@ -76,7 +74,7 @@ public abstract class AbstractLifecycleScheduler<A extends Annotation> implement
 
     @SuppressWarnings("rawtypes")
     private List<AnnotatedMethodProcessor> processors = Collections
-            .synchronizedList(new ArrayList<AnnotatedMethodProcessor>());
+        .synchronizedList(new ArrayList<AnnotatedMethodProcessor>());
 
     protected Scheduler scheduler;
 
@@ -159,7 +157,7 @@ public abstract class AbstractLifecycleScheduler<A extends Annotation> implement
         try {
             scheduler = StdSchedulerFactory.getDefaultScheduler();
         } catch (SchedulerException ex) {
-            getLogger().error(ex.getMessage());
+            getLogger().severe(ex.getMessage());
         }
     }
 

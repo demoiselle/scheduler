@@ -32,20 +32,13 @@
 // "LICENCA.txt", junto com esse programa. Se não, acesse <http://www.gnu.org/licenses />
 // ou escreva para a Fundação do Software Livre (FSF) Inc.,
 // 51 Franklin St, Fifth Floor, Boston, MA 02111-1301, USA.
-
 package br.gov.frameworkdemoiselle.scheduler.internal.bootstrap;
 
 import br.gov.frameworkdemoiselle.internal.producer.LoggerProducer;
 import br.gov.frameworkdemoiselle.lifecycle.AfterStartupProccess;
 import br.gov.frameworkdemoiselle.scheduler.lifecycle.Schedule;
+import java.util.logging.Logger;
 import javax.enterprise.event.Observes;
-import org.slf4j.Logger;
-
-/**
- *
- * @author 70744416353
- */
-
 
 public class SchedulerBootstrap extends AbstractLifecycleScheduler<Schedule> {
 
@@ -54,7 +47,7 @@ public class SchedulerBootstrap extends AbstractLifecycleScheduler<Schedule> {
     @Override
     protected Logger getLogger() {
         if (logger == null) {
-            logger = LoggerProducer.create(SchedulerBootstrap.class);
+            logger = LoggerProducer.create("SchedulerBootstrap");
         }
 
         return logger;
@@ -63,4 +56,5 @@ public class SchedulerBootstrap extends AbstractLifecycleScheduler<Schedule> {
     public void startup(@Observes AfterStartupProccess event) {
         proccessEvent();
     }
+
 }
