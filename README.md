@@ -9,12 +9,20 @@ O componente funciona em métodos das camadas de Negócio e de Persistência, ou
 O componente é compatível com versões do Demoiselle Framework superiores a 2.4.0
 
 ### O primeiro passo é importar o componente no pom.xml
-
+Para as versões 2.4.x
 ```xml
 <dependency>
     <groupId>br.gov.frameworkdemoiselle.component</groupId>
     <artifactId>demoiselle-scheduler-quartz</artifactId>
     <version>1.0.0-SNAPSHOT</version>
+</dependency>
+```
+Para as versões 2.5.x
+```xml
+<dependency>
+    <groupId>br.gov.frameworkdemoiselle.component</groupId>
+    <artifactId>demoiselle-scheduler-quartz</artifactId>
+    <version>2.0.0-SNAPSHOT</version>
 </dependency>
 ```
 
