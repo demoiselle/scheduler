@@ -64,11 +64,11 @@ public class CdiJob implements org.quartz.Job {
 
     private final static String DEMOISELLE_JOB = "DEMOISELLE_JOB";
 
-    private final HashMap<String, Boolean> startedContextHere = new HashMap<String, Boolean>();
+//    private final HashMap<String, Boolean> startedContextHere = new HashMap<String, Boolean>();
 
-    private transient CustomContext backupContext = null;
+//    private transient CustomContext backupContext = null;
 
-    private boolean registered = false;
+//    private boolean registered = false;
 
     @Override
     public void execute(JobExecutionContext context) {
@@ -89,12 +89,12 @@ public class CdiJob implements org.quartz.Job {
                 CreationalContext c = bm.createCreationalContext(jobBean);
                 Serializable job = (Serializable) bm.getReference(jobBean, Serializable.class, c);
                 Method method = jobClass.getMethod(methodName);
-                try {
-                    startContexts();
+//                try {
+//                    startContexts();
                     method.invoke(job);
-                } finally {
-                    stopContexts();
-                }
+//                } finally {
+//                    stopContexts();
+//                }
             }
 
         } catch (ClassNotFoundException ex) {
@@ -134,83 +134,83 @@ public class CdiJob implements org.quartz.Job {
         return "";
     }
 
-    private void startContexts() {
-        if (!registered) {
-            RequestContext requestContext = Beans.getReference(RequestContext.class);
-            SessionContext sessionContext = Beans.getReference(SessionContext.class);
-            ViewContext viewContext = Beans.getReference(ViewContext.class);
-            ConversationContext conversationContext = Beans.getReference(ConversationContext.class);
+//    private void startContexts() {
+//        if (!registered) {
+//            RequestContext requestContext = Beans.getReference(RequestContext.class);
+//            SessionContext sessionContext = Beans.getReference(SessionContext.class);
+//            ViewContext viewContext = Beans.getReference(ViewContext.class);
+//            ConversationContext conversationContext = Beans.getReference(ConversationContext.class);
+//
+//            if (requestContext != null) {
+//                startedContextHere.put("request", requestContext.activate());
+//            }
+//
+//            if (sessionContext != null) {
+//                startedContextHere.put("session", sessionContext.activate());
+//            }
+//
+//            if (conversationContext != null) {
+//                startedContextHere.put("conversation", conversationContext.activate());
+//            }
+//
+//            //Contexto temporário de visão precisa de tratamento especial
+//            //para evitar conflito com o contexto presente na extensão demoiselle-jsf
+//            if (viewContext != null) {
+//                if (TemporaryViewContextImpl.class.isInstance(viewContext)) {
+//                    startedContextHere.put("view", viewContext.activate());
+//                } else {
+//                    //Precisamos desativar temporariamente o contexto
+//                    if (viewContext.isActive()) {
+//                        backupContext = viewContext;
+//                        viewContext.deactivate();
+//
+//                        CustomContextBootstrap customContextBootstrap = Beans.getReference(CustomContextBootstrap.class);
+//                        for (CustomContext customContext : customContextBootstrap.getCustomContexts()) {
+//                            if (TemporaryViewContextImpl.class.isInstance(customContext)) {
+//                                startedContextHere.put("view", customContext.activate());
+//                                break;
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//
+//            registered = true;
+//        }
+//    }
 
-            if (requestContext != null) {
-                startedContextHere.put("request", requestContext.activate());
-            }
-
-            if (sessionContext != null) {
-                startedContextHere.put("session", sessionContext.activate());
-            }
-
-            if (conversationContext != null) {
-                startedContextHere.put("conversation", conversationContext.activate());
-            }
-
-            //Contexto temporário de visão precisa de tratamento especial
-            //para evitar conflito com o contexto presente na extensão demoiselle-jsf
-            if (viewContext != null) {
-                if (TemporaryViewContextImpl.class.isInstance(viewContext)) {
-                    startedContextHere.put("view", viewContext.activate());
-                } else {
-                    //Precisamos desativar temporariamente o contexto
-                    if (viewContext.isActive()) {
-                        backupContext = viewContext;
-                        viewContext.deactivate();
-
-                        CustomContextBootstrap customContextBootstrap = Beans.getReference(CustomContextBootstrap.class);
-                        for (CustomContext customContext : customContextBootstrap.getCustomContexts()) {
-                            if (TemporaryViewContextImpl.class.isInstance(customContext)) {
-                                startedContextHere.put("view", customContext.activate());
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
-
-            registered = true;
-        }
-    }
-
-    private void stopContexts() {
-        if (registered) {
-            RequestContext requestContext = Beans.getReference(RequestContext.class);
-            SessionContext sessionContext = Beans.getReference(SessionContext.class);
-            ViewContext viewContext = Beans.getReference(ViewContext.class);
-            ConversationContext conversationContext = Beans.getReference(ConversationContext.class);
-
-            if (requestContext != null && Boolean.TRUE.equals(startedContextHere.get("request"))) {
-                requestContext.deactivate();
-            }
-
-            if (sessionContext != null && Boolean.TRUE.equals(startedContextHere.get("session"))) {
-                sessionContext.deactivate();
-            }
-
-            if (conversationContext != null && Boolean.TRUE.equals(startedContextHere.get("conversation"))) {
-                conversationContext.deactivate();
-            }
-
-            //Contexto temporário de visão precisa de tratamento especial
-            //para evitar conflito com o contexto presente na extensão demoiselle-jsf
-            if (viewContext != null) {
-                if (TemporaryViewContextImpl.class.isInstance(viewContext) && startedContextHere.get("view")) {
-                    viewContext.deactivate();
-
-                    if (backupContext != null) {
-                        backupContext.activate();
-                        backupContext = null;
-                    }
-                }
-            }
-        }
-    }
+//    private void stopContexts() {
+//        if (registered) {
+//            RequestContext requestContext = Beans.getReference(RequestContext.class);
+//            SessionContext sessionContext = Beans.getReference(SessionContext.class);
+//            ViewContext viewContext = Beans.getReference(ViewContext.class);
+//            ConversationContext conversationContext = Beans.getReference(ConversationContext.class);
+//
+//            if (requestContext != null && Boolean.TRUE.equals(startedContextHere.get("request"))) {
+//                requestContext.deactivate();
+//            }
+//
+//            if (sessionContext != null && Boolean.TRUE.equals(startedContextHere.get("session"))) {
+//                sessionContext.deactivate();
+//            }
+//
+//            if (conversationContext != null && Boolean.TRUE.equals(startedContextHere.get("conversation"))) {
+//                conversationContext.deactivate();
+//            }
+//
+//            //Contexto temporário de visão precisa de tratamento especial
+//            //para evitar conflito com o contexto presente na extensão demoiselle-jsf
+//            if (viewContext != null) {
+//                if (TemporaryViewContextImpl.class.isInstance(viewContext) && startedContextHere.get("view")) {
+//                    viewContext.deactivate();
+//
+//                    if (backupContext != null) {
+//                        backupContext.activate();
+//                        backupContext = null;
+//                    }
+//                }
+//            }
+//        }
+//    }
 
 }
