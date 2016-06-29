@@ -34,9 +34,15 @@
 // 51 Franklin St, Fifth Floor, Boston, MA 02111-1301, USA.
 package br.gov.frameworkdemoiselle.scheduler.internal.bootstrap;
 
+import br.gov.frameworkdemoiselle.context.ConversationContext;
+import br.gov.frameworkdemoiselle.context.RequestContext;
+import br.gov.frameworkdemoiselle.context.SessionContext;
+import br.gov.frameworkdemoiselle.context.ViewContext;
 import br.gov.frameworkdemoiselle.internal.producer.LoggerProducer;
 import br.gov.frameworkdemoiselle.lifecycle.AfterStartupProccess;
+import br.gov.frameworkdemoiselle.lifecycle.Shutdown;
 import br.gov.frameworkdemoiselle.scheduler.lifecycle.Schedule;
+import br.gov.frameworkdemoiselle.util.Beans;
 import java.util.logging.Logger;
 import javax.enterprise.event.Observes;
 
@@ -55,6 +61,34 @@ public class SchedulerBootstrap extends AbstractLifecycleScheduler<Schedule> {
 
     public void startup(@Observes AfterStartupProccess event) {
         proccessEvent();
+        addContexts();
     }
 
+    public void shutdown(@Observes Shutdown event) {
+    	removeContexts();
+    }
+    
+	public void addContexts() {
+		RequestContext requestContext = Beans.getReference(RequestContext.class);
+		SessionContext sessionContext = Beans.getReference(SessionContext.class);
+		ViewContext viewContext = Beans.getReference(ViewContext.class);
+		ConversationContext conversationContext = Beans.getReference(ConversationContext.class);
+
+		requestContext.activate();
+		sessionContext.activate();
+		viewContext.activate();
+		conversationContext.activate();
+	}
+
+	public void removeContexts() {
+		RequestContext requestContext = Beans.getReference(RequestContext.class);
+		SessionContext sessionContext = Beans.getReference(SessionContext.class);
+		ViewContext viewContext = Beans.getReference(ViewContext.class);
+		ConversationContext conversationContext = Beans.getReference(ConversationContext.class);
+		
+		requestContext.deactivate();
+		sessionContext.deactivate();
+		viewContext.deactivate();
+		conversationContext.deactivate();
+	}
 }
